@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Missing You</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .container {
+            text-align: center;
+            max-width: 600px;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        
+        h1 {
+            color: #ff6b6b;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        button {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        #yesBtn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        #noBtn {
+            background-color: #f44336;
+            color: white;
+            position: relative;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .hearts {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #ff6b6b;
+            transform: rotate(45deg);
+            opacity: 0;
+        }
+        
+        .heart:before, .heart:after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            background-color: #ff6b6b;
+            border-radius: 50%;
+            position: absolute;
+        }
+        
+        .heart:before {
+            top: -10px;
+            left: 0;
+        }
+        
+        .heart:after {
+            top: 0;
+            left: -10px;
+        }
+        
+        /* Second page styles */
+        #secondPage {
+            display: none;
+            text-align: center;
+        }
+        
+        .cat-gif {
+            max-width: 300px;
+            margin: 20px auto;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .message {
+            font-size: 2rem;
+            color: #ff6b6b;
+            margin: 20px 0;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .emoji {
+            font-size: 3rem;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="firstPage">
+        <h1>Do you miss me? 💕</h1>
+        <div class="buttons">
+            <button id="yesBtn">Yes</button>
+            <button id="noBtn">No</button>
+        </div>
+        <div class="hearts" id="heartsContainer"></div>
+    </div>
+    
+    <div class="container" id="secondPage">
+        <h1 class="message">I miss you too! </h1>
+        <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExYjJ4ODVsdmowOWE5YjFjMDViN3FxcHAybm9mb2k2bzdvMDd1ejh3NyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/kZqbBT64ECtjy/giphy.gif" alt="Cute cat" class="cat-gif">
+        <p style="margin-top: 20px; color: #666;">Thank you for being honest with me</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const yesBtn = document.getElementById('yesBtn');
+            const noBtn = document.getElementById('noBtn');
+            const firstPage = document.getElementById('firstPage');
+            const secondPage = document.getElementById('secondPage');
+            const heartsContainer = document.getElementById('heartsContainer');
+            
+            // Function to create floating hearts
+            function createHeart() {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                
+                // Random position
+                const posX = Math.random() * 100;
+                heart.style.left = `${posX}%`;
+                heart.style.top = '100%';
+                
+                // Random size
+                const size = Math.random() * 20 + 10;
+                heart.style.width = `${size}px`;
+                heart.style.height = `${size}px`;
+                
+                // Random color
+                const colors = ['#ff6b6b', '#ffa5a5', '#ff8e8e'];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                heart.style.backgroundColor = color;
+                heart.style.opacity = '0.7';
+                
+                heartsContainer.appendChild(heart);
+                
+                // Animation
+                const animation = heart.animate([
+                    { top: '100%', opacity: 0.7 },
+                    { top: '-20%', opacity: 0 }
+                ], {
+                    duration: Math.random() * 3000 + 2000,
+                    easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+                });
+                
+                animation.onfinish = () => {
+                    heart.remove();
+                };
+            }
+            
+            // Create hearts periodically
+            setInterval(createHeart, 300);
+            
+            // Yes button functionality
+            yesBtn.addEventListener('click', function() {
+                firstPage.style.display = 'none';
+                secondPage.style.display = 'block';
+                
+                // Create celebration effect
+                for(let i = 0; i < 50; i++) {
+                    setTimeout(createHeart, i * 100);
+                }
+            });
+            
+            // No button functionality - move button when hovered
+            noBtn.addEventListener('mouseover', function() {
+                const maxX = window.innerWidth - noBtn.offsetWidth - 50;
+                const maxY = window.innerHeight - noBtn.offsetHeight - 50;
+                
+                const randomX = Math.floor(Math.random() * maxX);
+                const randomY = Math.floor(Math.random() * maxY);
+                
+                noBtn.style.position = 'fixed';
+                noBtn.style.left = `${randomX}px`;
+                noBtn.style.top = `${randomY}px`;
+                
+                // Change button text sometimes
+                if (Math.random() > 0.7) {
+                    const messages = [
+                        "Are you sure?",
+                        "Think again!",
+                        "Really? 😢",
+                        "Please say yes!",
+                        "Don't do this!"
+                    ];
+                    noBtn.textContent = messages[Math.floor(Math.random() * messages.length)];
+                }
+            });
+            
+            // Also move on click
+            noBtn.addEventListener('click', function() {
+                const maxX = window.innerWidth - noBtn.offsetWidth - 50;
+                const maxY = window.innerHeight - noBtn.offsetHeight - 50;
+                
+                const randomX = Math.floor(Math.random() * maxX);
+                const randomY = Math.floor(Math.random() * maxY);
+                
+                noBtn.style.position = 'fixed';
+                noBtn.style.left = `${randomX}px`;
+                noBtn.style.top = `${randomY}px`;
+                
+                // Change button text
+                const messages = [
+                    "Please reconsider!",
+                    "I'm sad now 😔",
+                    "You're breaking my heart",
+                    "Try the other button!",
+                    "Yes is a better option!"
+                ];
+                noBtn.textContent = messages[Math.floor(Math.random() * messages.length)];
+            });
+        });
+    </script>
+</body>
+</html>
